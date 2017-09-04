@@ -5,20 +5,93 @@ var path = require('path');
 var app = express();
 app.use(morgan('combined'));
 
+var articles={
+    'article-one':{
+        title: 'Article One',
+        heading: 'Article One',
+        date: 'Sep 4th',
+        content: ` <p>
+                    Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
+                </p>
+                <p>
+                    Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
+                </p>
+                <p>
+                    Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
+                </p>`
+},
+    'article-two': {
+        title: 'Article two',
+        heading: 'Article two',
+        date: 'Sep 4th',
+        content: ` <p>
+                    Hello, this is my second article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
+                </p>
+                <p>
+                    Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
+                </p>
+                <p>
+                    Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
+                </p>`
+},
+    'article-three':{
+        title: 'Article three',
+        heading: 'Article three',
+        date: 'Sep 4th',
+        content: ` <p>
+                    Hello, this is my third article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
+                </p>
+                <p>
+                    Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
+                </p>
+                <p>
+                    Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
+                </p>`
+    }
+};
+
+function createTemplate(data){
+    var title=data.title;
+    var heading=data.heading;
+    var date=data.date;
+    var content=data.content;
+    var htmlTemplate=`
+    <html>
+        <head>
+            <title>
+                ${title}
+            </title>
+            <meta name="viewport" content="width=device-width initial=scale-1" />
+            <link href="/ui/style.css" rel="stylesheet" />
+        </head>
+        <body>
+            <div>
+                <a href="/">Home</a>
+            </div>
+            <hr/>
+            <h3>
+                ${heading}
+            </h3>
+            <div>
+                ${date}
+            </div>
+            <div>
+                ${content}
+            </div>
+        </body>
+    </html> 
+    `;
+    return htmlTemplate;
+
+}
+
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname, 'ui', 'index.html'));
 });
 
-app.get('/article-one', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'article-one.html'));
-});
-
-app.get('/article-two', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'article-two.html'));
-});
-
-app.get('/article-three', function (req, res) {
-  res.sendFile(path.join(__dirname, 'ui', 'article-three.html'));
+app.get('/:articleName', function (req, res) {
+    var articleName = req.params.articleName;
+    res.send(createTemplate(articles[articleName]));
 });
 
 app.get('/ui/style.css', function (req, res) {
