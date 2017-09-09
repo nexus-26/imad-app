@@ -14,7 +14,7 @@ var config = {
 var app = express();
 app.use(morgan('combined'));
 
-var articles={
+/*var articles={
     'article-one':{
         title: 'Article One',
         heading: 'Article One',
@@ -57,7 +57,7 @@ var articles={
                     Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
                 </p>`
     }
-};
+};*/
 
 function createTemplate(data){
     var title=data.title;
@@ -125,9 +125,8 @@ app.get('/test-db',function(req,res){
 });
 
 app.get('/articles/:articleName', function (req, res) {
-    var articleName = req.params.articleName;
     
-    pool.query("SELECT * FROM test WHERE title = '"+ req.params.articleName+"'", function(err,result){
+    pool.query("SELECT * FROM test WHERE title = " + req.params.articleName, function(err,result){
         if(err){
             res.status(500).send(err.toString());
         }
