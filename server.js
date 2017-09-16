@@ -2,6 +2,7 @@ var express = require('express');
 var morgan = require('morgan');
 var path = require('path');
 var Pool = require('pg').Pool;
+var crypto = require('crypto');
 
 var config = {
     user: 'adhikarlanitesh',
@@ -13,51 +14,6 @@ var config = {
 
 var app = express();
 app.use(morgan('combined'));
-
-/*var articles={
-    'article-one':{
-        title: 'Article One',
-        heading: 'Article One',
-        date: 'Sep 4th',
-        content: ` <p>
-                    Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
-                </p>
-                <p>
-                    Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
-                </p>
-                <p>
-                    Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
-                </p>`
-},
-    'article-two': {
-        title: 'Article two',
-        heading: 'Article two',
-        date: 'Sep 4th',
-        content: ` <p>
-                    Hello, this is my second article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
-                </p>
-                <p>
-                    Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
-                </p>
-                <p>
-                    Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
-                </p>`
-},
-    'article-three':{
-        title: 'Article three',
-        heading: 'Article three',
-        date: 'Sep 4th',
-        content: ` <p>
-                    Hello, this is my third article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
-                </p>
-                <p>
-                    Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
-                </p>
-                <p>
-                    Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.Hello, this is my first article after a very long time.
-                </p>`
-    }
-};*/
 
 function createTemplate(data){
     var title=data.title;
